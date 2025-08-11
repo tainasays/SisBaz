@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Órgãos Fiscalizadores</title>
+</head>
+<body>
+    <h1>Lista de Órgãos Fiscalizadores</h1>
+    <a th:href="@{/orgaos-fiscalizadores/form}">Novo Órgão Fiscalizador</a>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Ações</th>
+        </tr>
+        <tr th:each="orgao : ${lista}">
+            <td th:text="${orgao.id}"></td>
+            <td th:text="${orgao.nome}"></td>
+            <td>
+                <a th:href="@{/orgaos-fiscalizadores/editar(id=${orgao.id})}">Editar</a> |
+                <a th:href="@{/orgaos-fiscalizadores/deletar(id=${orgao.id})}" 
+                   onclick="return confirm('Tem certeza que deseja deletar este órgão?')">Deletar</a>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <a th:href="@{/}">Voltar</a>
+</body>
+</html>

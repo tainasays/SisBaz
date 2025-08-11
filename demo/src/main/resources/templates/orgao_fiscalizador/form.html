@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastrar Órgão Fiscalizador</title>
+</head>
+<body>
+    <h1>Cadastrar Órgão Fiscalizador</h1>
+    <form th:action="@{/orgaos-fiscalizadores/salvar}" th:object="${orgaoFiscalizador}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <label>Nome:</label>
+        <input type="text" th:field="*{nome}" required /><br><br>
+        <label>Descrição:</label>
+        <textarea th:field="*{descricao}"></textarea><br><br>
+        <button type="submit">Salvar</button>
+    </form>
+    <a th:href="@{/orgaos-fiscalizadores}">Voltar</a> | 
+    <a th:href="@{/}">Home</a>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Filtrar Lotes</title>
+</head>
+<body>
+    <h1>Filtros de Lotes</h1>
+
+    <h2>Por Órgão Fiscalizador</h2>
+    <form th:action="@{/lotes/porFiscalizador}" method="get">
+        <select name="id">
+            <option th:each="f : ${fiscalizadores}" th:value="${f.id}" th:text="${f.nome}"></option>
+        </select>
+        <button type="submit">Filtrar</button>
+    </form>
+
+    <h2>Por Órgão Donatário</h2>
+    <form th:action="@{/lotes/porDonatario}" method="get">
+        <select name="id">
+            <option th:each="d : ${donatarios}" th:value="${d.id}" th:text="${d.nome}"></option>
+        </select>
+        <button type="submit">Filtrar</button>
+    </form>
+
+    <a th:href="@{/}">Voltar</a>
+</body>
+</html>

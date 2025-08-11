@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Produtos</title>
+</head>
+<body>
+    <h1>Lista de Produtos</h1>
+    <a th:href="@{/produtos/form}">Novo Produto</a>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Status</th>
+            <th>Ações</th>
+        </tr>
+        <tr th:each="produto : ${lista}">
+            <td th:text="${produto.codigo}"></td>
+            <td th:text="${produto.nome}"></td>
+            <td th:text="${produto.descricao}"></td>
+            <td>
+                <!-- Verificar se produto está vinculado a um lote -->
+                <span th:if="${repository.buscarLoteVinculado(produto.codigo) != null}" 
+                      style="color: #dc3545; font-weight: bold;">
+                    Vinculado ao Lote #<span th:text="${repository.buscarLoteVinculado(produto.codigo)}"></span>
+                </span>
+                <span th:if="${repository.buscarLoteVinculado(produto.codigo) == null}" 
+                      style="color: #28a745; font-weight: bold;">
+                    Disponível
+                </span>
+            </td>
+            <td>
+                <a th:href="@{/produtos/editar(codigo=${produto.codigo})}">Editar</a> |
+                <a th:href="@{/produtos/deletar(codigo=${produto.codigo})}" 
+                   th:onclick="'return confirm(\'Tem certeza que deseja deletar este produto?' + 
+                              (${repository.buscarLoteVinculado(produto.codigo)} != null ? 
+                               ' ATENÇÃO: Este produto está vinculado ao lote ' + ${repository.buscarLoteVinculado(produto.codigo)} + '!' : '') + 
+                              '\')'"
+                   style="color: #dc3545;">Deletar</a>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <a th:href="@{/}">Voltar</a>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastrar Lote</title>
+</head>
+<body>
+    <h1>Cadastrar Lote</h1>
+    
+    <!-- Exibir mensagem de erro se houver -->
+    <div th:if="${erro}" style="background-color: #f8d7da; color: #721c24; padding: 10px; margin: 10px 0; border: 1px solid #f5c6cb; border-radius: 4px;">
+        <strong>Erro:</strong> <span th:text="${erro}"></span>
+    </div>
+    
+    <form th:action="@{/lotes/salvar}" th:object="${lote}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        
+        <label>Data de Entrega:</label>
+        <input type="date" name="dataEntregaDate" required /><br><br>
+        
+        <label>Observação:</label>
+        <input type="text" th:field="*{observacao}" /><br><br>
+        
+        <label>Órgão Donatário:</label>
+        <select name="orgaoDonatarioId" required>
+            <option value="">Selecione um órgão donatário</option>
+            <option th:each="orgao : ${orgaosDonatarios}" 
+                    th:value="${orgao.id}" 
+                    th:text="${orgao.nome}"></option>
+        </select><br><br>
+        
+        <label>Órgão Fiscalizador:</label>
+        <select name="orgaoFiscalizadorId" required>
+            <option value="">Selecione um órgão fiscalizador</option>
+            <option th:each="orgao : ${orgaosFiscalizadores}" 
+                    th:value="${orgao.id}" 
+                    th:text="${orgao.nome}"></option>
+        </select><br><br>
+        
+        <label>Produtos:</label><br>
+        <div th:if="${produtos != null and !produtos.isEmpty()}">
+            <div th:each="produto : ${produtos}">
+                <input type="checkbox" name="produtosCodigos" th:value="${produto.codigo}" th:id="'produto_' + ${produto.codigo}"/>
+                <label th:for="'produto_' + ${produto.codigo}" th:text="${produto.codigo + ' - ' + produto.nome}"></label><br>
+            </div>
+        </div>
+        <div th:if="${produtos == null or produtos.isEmpty()}" style="color: #666; font-style: italic;">
+            Não há produtos disponíveis. Todos os produtos já estão vinculados a outros lotes.
+            <br><a th:href="@{/produtos/form}" style="color: #007bff;">Cadastrar novo produto</a>
+        </div><br>
+        
+        <button type="submit">Salvar</button>
+    </form>
+    <a th:href="@{/lotes}">Voltar</a> | 
+    <a th:href="@{/}">Home</a>
+</body>
+</html>

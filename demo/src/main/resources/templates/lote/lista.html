@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Lotes</title>
+</head>
+<body>
+    <h1>Lista de Lotes</h1>
+    <a th:href="@{/lotes/form}">Novo Lote</a>
+    
+    <!-- Filtros -->
+    <div style="background-color: #f0f0f0; padding: 10px; margin: 10px 0; border: 1px solid #ccc;">
+        <h3>Filtros</h3>
+        
+        <form th:action="@{/lotes/filtrar-por-fiscalizador}" method="get" style="display: inline-block; margin-right: 20px;">
+            <label>Filtrar por Órgão Fiscalizador:</label>
+            <input type="text" name="nomeFiscalizador" th:value="${param.nomeFiscalizador}" placeholder="Digite o nome do fiscalizador"/>
+            <button type="submit">Filtrar</button>
+        </form>
+        
+        <form th:action="@{/lotes/filtrar-por-donatario}" method="get" style="display: inline-block; margin-right: 20px;">
+            <label>Filtrar por Órgão Donatário:</label>
+            <input type="text" name="nomeDonatario" th:value="${param.nomeDonatario}" placeholder="Digite o nome do donatário"/>
+            <button type="submit">Filtrar</button>
+        </form>
+        
+        <a th:href="@{/lotes}" style="margin-left: 10px;">Limpar Filtros</a>
+    </div>
+    
+    <!-- Indicador de filtro ativo -->
+    <div th:if="${filtroAtivo}" style="background-color: #e6f3ff; padding: 5px; margin: 5px 0; border: 1px solid #007bff; color: #007bff;">
+        <strong th:text="${filtroAtivo}"></strong>
+    </div>
+    
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Data de Entrega</th>
+            <th>Observação</th>
+            <th>Órgão Fiscalizador</th>
+            <th>Órgão Donatário</th>
+            <th>Produtos</th>
+            <th>Ações</th>
+        </tr>
+        <tr th:each="lote : ${lista}">
+            <td th:text="${lote.id}"></td>
+            <td th:text="${lote.dataEntrega > 0 ? #dates.format(new java.util.Date(lote.dataEntrega), 'dd/MM/yyyy') : 'N/A'}"></td>
+            <td th:text="${lote.observacao}"></td>
+            <td th:text="${lote.orgaoFiscalizador != null ? lote.orgaoFiscalizador.nome : 'N/A'}"></td>
+            <td th:text="${lote.orgaoDonatario != null ? lote.orgaoDonatario.nome : 'N/A'}"></td>
+            <td th:text="${lote.produtos != null ? lote.produtos.size() + ' produto(s)' : '0 produtos'}"></td>
+            <td>
+                <a th:href="@{/lotes/detalhes(id=${lote.id})}">Ver Produtos</a>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <a th:href="@{/}">Voltar</a>
+</body>
+</html>

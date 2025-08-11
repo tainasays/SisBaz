@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detalhes do Lote</title>
+</head>
+<body>
+    <h1>Detalhes do Lote</h1>
+    
+    <div th:if="${lote != null}">
+        <h2>Informações do Lote</h2>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <td th:text="${lote.id}"></td>
+            </tr>
+            <tr>
+                <th>Data de Entrega</th>
+                <td th:text="${lote.dataEntrega > 0 ? #dates.format(new java.util.Date(lote.dataEntrega), 'dd/MM/yyyy') : 'N/A'}"></td>
+            </tr>
+            <tr>
+                <th>Observação</th>
+                <td th:text="${lote.observacao}"></td>
+            </tr>
+            <tr>
+                <th>Órgão Fiscalizador</th>
+                <td th:text="${lote.orgaoFiscalizador != null ? lote.orgaoFiscalizador.nome : 'N/A'}"></td>
+            </tr>
+            <tr>
+                <th>Órgão Donatário</th>
+                <td th:text="${lote.orgaoDonatario != null ? lote.orgaoDonatario.nome : 'N/A'}"></td>
+            </tr>
+        </table>
+
+        <h2>Produtos do Lote</h2>
+        <div th:if="${lote.produtos != null and !lote.produtos.isEmpty()}">
+            <table border="1">
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                </tr>
+                <tr th:each="produto : ${lote.produtos}">
+                    <td th:text="${produto.codigo}"></td>
+                    <td th:text="${produto.nome}"></td>
+                    <td th:text="${produto.descricao}"></td>
+                </tr>
+            </table>
+        </div>
+        <div th:if="${lote.produtos == null or lote.produtos.isEmpty()}">
+            <p><em>Este lote não possui produtos associados.</em></p>
+        </div>
+    </div>
+    
+    <div th:if="${lote == null}">
+        <p>Lote não encontrado.</p>
+    </div>
+    
+    <br>
+    <a th:href="@{/lotes}">Voltar</a> | 
+    <a th:href="@{/}">Home</a>
+</body>
+</html>

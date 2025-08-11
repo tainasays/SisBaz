@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastrar Órgão Donatário</title>
+</head>
+<body>
+    <h1>Cadastrar Órgão Donatário</h1>
+    <form th:action="@{/orgaos-donatarios/salvar}" th:object="${orgaoDonatario}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <label>Nome:</label>
+        <input type="text" th:field="*{nome}" required /><br><br>
+        <label>Endereço:</label>
+        <input type="text" th:field="*{endereco}" /><br><br>
+        <label>Telefone:</label>
+        <input type="text" th:field="*{telefone}" /><br><br>
+        <label>Horário de Funcionamento:</label>
+        <input type="text" th:field="*{horarioFuncionamento}" /><br><br>
+        <label>Descrição:</label>
+        <textarea th:field="*{descricao}"></textarea><br><br>
+        <button type="submit">Salvar</button>
+    </form>
+    <a th:href="@{/orgaos-donatarios}">Voltar</a> | 
+    <a th:href="@{/}">Home</a>
+</body>
+</html>

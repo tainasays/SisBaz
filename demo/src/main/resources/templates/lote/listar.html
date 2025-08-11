@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Lotes</title>
+</head>
+<body>
+    <h1>Resultados da Busca</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Data de Entrega</th>
+                <th>Observação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="lote : ${lotes}">
+                <td th:text="${lote.id}"></td>
+                <td th:text="${#dates.format(lote.dataEntrega, 'dd/MM/yyyy')}"></td>
+                <td th:text="${lote.observacao}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/lotes/filtro}">Voltar</a> | 
+    <a th:href="@{/}">Home</a>
+</body>
+</html>
