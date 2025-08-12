@@ -31,6 +31,12 @@ public class ConnectionManager {
        
         try (Statement stmt = conn.createStatement()) {
             stmt.execute("SET search_path TO sisbaz, public");
+        } catch (SQLException e) {
+        	 
+        	if (conn != null && !conn.isClosed()) {
+                conn.close();  
+            }
+            throw e; 
         }
         return conn;
     }

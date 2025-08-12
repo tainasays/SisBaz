@@ -24,8 +24,8 @@ public class DatabaseInitializer implements CommandLineRunner {
             executeScript("schema.sql");
             System.out.println("Schema criado com sucesso!");
             
-            executeScript("data.sql");
-            System.out.println("Dados inseridos com sucesso!");
+            //executeScript("data.sql");
+            //System.out.println("Dados inseridos com sucesso!");
             
         } catch (Exception e) {
             System.err.println("Erro durante a inicialização do banco: " + e.getMessage());
