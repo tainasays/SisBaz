@@ -7,14 +7,14 @@ import java.sql.Statement;
 
 public class ConnectionManager {
     
-    private static final String URL = "jdbc:postgresql://localhost:5435/sisbaz";
+    private static final String URL = "jdbc:postgresql://localhost:5435/";
     private static final String USER = "postgres";
     private static final String PASSWORD = "admin";
     
     private static Connection currentConnection = null;
     
     public static Connection getCurrentConnection() throws SQLException, ClassNotFoundException{
-        Class.forName("com.postgresql.cj.jdbc.Driver");
+        Class.forName("org.postgresql.Driver");
         
         if(currentConnection == null){
             currentConnection = DriverManager.getConnection(URL, USER, PASSWORD);

@@ -47,6 +47,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     private void executeScript(String scriptName) throws Exception {
         ClassPathResource resource = new ClassPathResource(scriptName);
         
+        
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
             String script = reader.lines()
                 .filter(line -> !line.trim().startsWith("--") && !line.trim().isEmpty())

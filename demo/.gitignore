@@ -112,3 +112,28 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+# Diretório de build do Maven
+/target/
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+
+# Arquivos de configuração locais
+*.iml
+.idea/
+*.classpath
+*.project
+*.settings/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de backup
+*.bak
+*.swp
+*~
+
+# Arquivos de ambiente específico
+.env
