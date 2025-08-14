@@ -35,24 +35,20 @@ public class LoteController {
 	                     @RequestParam(required = false) List<Integer> produtosCodigos,
 	                     Model model) throws SQLException {
 		
-		// Converter data para timestamp
 		try {
 			java.time.LocalDate localDate = java.time.LocalDate.parse(dataEntregaDate);
 			long timestamp = localDate.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli();
 			lote.setDataEntrega(timestamp);
 		} catch (Exception e) {
-			// Se não conseguir parsear, usar data atual
 			lote.setDataEntrega(System.currentTimeMillis());
 		}
 		
-		// Buscar os órgãos pelos IDs e associar ao lote
 		OrgaoDonatarioRepo donatarioRepo = new OrgaoDonatarioRepo();
 		OrgaoFiscalizadorRepo fiscalizadorRepo = new OrgaoFiscalizadorRepo();
 		
 		lote.setOrgaoDonatario(donatarioRepo.buscarPorId(orgaoDonatarioId));
 		lote.setOrgaoFiscalizador(fiscalizadorRepo.buscarPorId(orgaoFiscalizadorId));
-		
-		// Processar produtos selecionados com validação
+
 		if (produtosCodigos != null && !produtosCodigos.isEmpty()) {
 			List<Produto> produtos = new ArrayList<>();
 			ProdutoRepo produtoRepo = new ProdutoRepo();
@@ -71,14 +67,12 @@ public class LoteController {
 					}
 				}
 			}
-			
-			// Se houver produtos já vinculados, retornar erro
+
 			if (!produtosJaVinculados.isEmpty()) {
 				model.addAttribute("erro", "Os seguintes produtos já estão vinculados a outros lotes: " + 
 				                           String.join(", ", produtosJaVinculados));
 				model.addAttribute("lote", lote);
 				
-				// Recarregar dados para o formulário
 				model.addAttribute("orgaosDonatarios", donatarioRepo.listarTodos());
 				model.addAttribute("orgaosFiscalizadores", fiscalizadorRepo.listarTodos());
 				model.addAttribute("produtos", produtoRepo.listarDisponiveis());
@@ -111,7 +105,7 @@ public class LoteController {
 		List<Lote> lotesFiltrados = repository.filtrarPorFiscalizador(nomeFiscalizador);
 		model.addAttribute("lista", lotesFiltrados);
 		model.addAttribute("filtroAtivo", "Filtrado por Fiscalizador: " + nomeFiscalizador);
-		model.addAttribute("nomeFiscalizador", nomeFiscalizador); // Para manter o valor no campo
+		model.addAttribute("nomeFiscalizador", nomeFiscalizador); 
 		return "lote/lista";
 	}
 
@@ -120,22 +114,21 @@ public class LoteController {
 		List<Lote> lotesFiltrados = repository.filtrarPorDonatario(nomeDonatario);
 		model.addAttribute("lista", lotesFiltrados);
 		model.addAttribute("filtroAtivo", "Filtrado por Donatário: " + nomeDonatario);
-		model.addAttribute("nomeDonatario", nomeDonatario); // Para manter o valor no campo
+		model.addAttribute("nomeDonatario", nomeDonatario); 
 		return "lote/lista";
 	}
 
 	@GetMapping("/form")
 	public String form(Model model) throws SQLException {
 		model.addAttribute("lote", new Lote());
-		
-		// Buscar listas para os selects
+	
 		OrgaoDonatarioRepo donatarioRepo = new OrgaoDonatarioRepo();
 		OrgaoFiscalizadorRepo fiscalizadorRepo = new OrgaoFiscalizadorRepo();
 		ProdutoRepo produtoRepo = new ProdutoRepo();
 		
 		model.addAttribute("orgaosDonatarios", donatarioRepo.listarTodos());
 		model.addAttribute("orgaosFiscalizadores", fiscalizadorRepo.listarTodos());
-		// Usar apenas produtos disponíveis (não vinculados a outros lotes)
+
 		model.addAttribute("produtos", produtoRepo.listarDisponiveis());
 		
 		return "lote/form";
